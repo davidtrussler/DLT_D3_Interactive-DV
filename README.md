@@ -30,3 +30,9 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Refines the Scattershot Chart with use of Axes in place of labels
 
 ![Axes](screenshots/08_Axes.png)
+
+## 09_Updates-transitions-motion
+
+* Refines the original Bar Chart to use Scales
+
+![Barchart-Scales](screenshots/09_Barchart-scales.png)

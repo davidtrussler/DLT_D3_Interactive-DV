@@ -7,17 +7,15 @@ svg {
   margin: 0 0 15px 0;
 }
 
-.circle {
+.bar {
   fill: teal;
 }
 
-.axis text {
+.label {
   font-family: sans-serif;
   font-size: 11px;
-  fill: red;
 }
 
-.axis path,
-.axis line {
-  stroke: red;
+.barchart .label {
+  fill: white;
 }
