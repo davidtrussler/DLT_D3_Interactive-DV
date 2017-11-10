@@ -5,3 +5,9 @@ svg {
 .bar {
   fill: teal;
 }
+
+.label {
+  font-family: sans-serif;
+  font-size: 11px;
+  fill: white;
+}

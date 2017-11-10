@@ -18,6 +18,11 @@ Data.prototype.init = function() {
 		.enter()
 		.append('rect');
 
+	var labels = svg.selectAll('text')
+		.data(this.dataset)
+		.enter()
+		.append('text');
+
 	rects
 		.attr('class', 'bar')
 		.attr('x', function(d, i) {
@@ -31,5 +36,18 @@ Data.prototype.init = function() {
 		})
 		.attr('height', function(d) {
 			return d * 4;
+		});
+
+	labels
+		.text(function(d) {
+			return d;
+		})
+		.attr('class', 'label')
+		.attr('text-anchor', 'middle')
+		.attr('x', function(d, i) {
+			return i * (_this.width / _this.dataset.length) + (_this.width / _this.dataset.length - _this.barPadding) / 2;
+		})
+		.attr('y', function(d) {
+			return _this.height - (d * 4) + 12;
 		});
 }
