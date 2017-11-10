@@ -1,15 +1,35 @@
 var Data = function() {
-	this.dataset = [5, 10, 15, 20, 25];
+	this.dataset = [5, 4, 12, 10, 13, 6, 15, 18, 4, 20, 12, 22, 25, 21, 12];
+	this.width = 500;
+	this.height = 100;
+	this.barPadding = 1;
 };
 
 Data.prototype.init = function() {
-	d3.select('body').selectAll('div')
+	var _this = this;
+
+	var svg = d3.select('body')
+		.append('svg')
+		.attr('width', this.width)
+		.attr('height', this.height);
+
+	var rects = svg.selectAll('rect')
 		.data(this.dataset)
 		.enter()
-		.append('div')
+		.append('rect');
+
+	rects
 		.attr('class', 'bar')
-		.style('height', function(d) {
-			var barHeight = d * 5;
-			return barHeight + 'px';
+		.attr('x', function(d, i) {
+			return i * (_this.width / _this.dataset.length);
+		})
+		.attr('y', function(d) {
+			return _this.height - (d * 4);
+		})
+		.attr('width', function(d, i) {
+			return _this.width / _this.dataset.length - _this.barPadding;
+		})
+		.attr('height', function(d) {
+			return d * 4;
 		});
 }
