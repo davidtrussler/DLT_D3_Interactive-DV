@@ -6,9 +6,9 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 
 ## 05_data
 
-Adds elements to the DOM
-Dynamically alters properties based on bound data
+* Adds elements to the DOM
+* Dynamically alters properties based on bound data
 
 ## 06_Drawing-with-data
 
-Uses data to draw barcharts with SVG
+* Uses data to draw barcharts with SVG
