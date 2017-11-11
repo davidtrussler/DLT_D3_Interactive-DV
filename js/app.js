@@ -4,4 +4,5 @@ function init() {
 	var data = new Data(); 
 
 	data.drawBarchart();
+	data.drawScattershot();
 }
