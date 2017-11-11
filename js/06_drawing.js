@@ -1,11 +1,11 @@
 var Data = function() {
-	this.dataset = [5, 4, 12, 10, 13, 6, 15, 18, 4, 20, 12, 22, 25, 21, 12];
+	this.dataset = [20, 16, 48, 40, 52, 24, 60, 72, 16, 80, 48, 88, 100, 84, 48];
 	this.width = 500;
 	this.height = 100;
 	this.barPadding = 1;
 };
 
-Data.prototype.init = function() {
+Data.prototype.drawBarchart = function() {
 	var _this = this;
 
 	var svg = d3.select('body')
@@ -29,13 +29,13 @@ Data.prototype.init = function() {
 			return i * (_this.width / _this.dataset.length);
 		})
 		.attr('y', function(d) {
-			return _this.height - (d * 4);
+			return _this.height - d;
 		})
 		.attr('width', function(d, i) {
 			return _this.width / _this.dataset.length - _this.barPadding;
 		})
 		.attr('height', function(d) {
-			return d * 4;
+			return d;
 		});
 
 	labels
@@ -48,6 +48,6 @@ Data.prototype.init = function() {
 			return i * (_this.width / _this.dataset.length) + (_this.width / _this.dataset.length - _this.barPadding) / 2;
 		})
 		.attr('y', function(d) {
-			return _this.height - (d * 4) + 12;
+			return _this.height - d + 12;
 		});
 }
