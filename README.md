@@ -11,4 +11,5 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 
 ## 06_Drawing-with-data
 
-* Uses data to draw barcharts with SVG
+* Uses data to draw a Bar Chart with SVG
+* Uses data to draw a Scattershot Chart with SVG
