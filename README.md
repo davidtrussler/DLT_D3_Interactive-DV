@@ -18,3 +18,9 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Uses data to draw a Scattershot Chart with SVG
 
 ![Scattershot](screenshots/06_Scattershot.png)
+
+## 07_Scales
+
+* Refines the Scattershot Chart with use of Scales
+
+![Bar Chart](screenshots/07_Scales.png)
