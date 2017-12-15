@@ -7,7 +7,7 @@ var Data = function() {
 	this.padding = 20;
 };
 
-Data.prototype.drawScales = function() {
+Data.prototype.drawAxes = function() {
 	var xScale = d3.scaleLinear()
 		.domain([
 			0,
