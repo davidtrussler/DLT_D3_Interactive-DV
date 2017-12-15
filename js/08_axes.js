@@ -46,10 +46,12 @@ Data.prototype.drawAxes = function() {
 		.enter()
 		.append('circle');
 
-	var labels = svg.selectAll('text')
-		.data(this.dataset)
-		.enter()
-		.append('text');
+	var xAxis = d3.axisBottom(xScale);
+
+	// var labels = svg.selectAll('text')
+	// 	.data(this.dataset)
+	// 	.enter()
+	// 	.append('text');
 
 	circles
 		.attr('class', 'circle')
@@ -63,16 +65,21 @@ Data.prototype.drawAxes = function() {
 			return aScale(d[1]);
 		});
 
-	labels
-		.text(function(d) {
-			return d[0] + ', ' + d[1];
-		})
-		.attr('class', 'label')
-		.attr('text-anchor', 'middle')
-		.attr('x', function(d) {
-			return xScale(d[0]);
-		})
-		.attr('y', function(d) {
-			return yScale(d[1] + 8);
-		});
+	// labels
+	// 	.text(function(d) {
+	// 		return d[0] + ', ' + d[1];
+	// 	})
+	// 	.attr('class', 'label')
+	// 	.attr('text-anchor', 'middle')
+	// 	.attr('x', function(d) {
+	// 		return xScale(d[0]);
+	// 	})
+	// 	.attr('y', function(d) {
+	// 		return yScale(d[1] + 8);
+	// 	});
+
+	svg.append('g')
+		.attr('class', 'axis')
+		.attr('transform', 'translate(0, ' + (this.height - this.padding) + ')')
+		.call(xAxis);
 }
