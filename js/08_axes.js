@@ -4,10 +4,10 @@ var Data = function() {
 	];
 	this.width = 540;
 	this.height = 140;
-	this.padding = 20;
+	this.padding = 25;
 };
 
-Data.prototype.drawScales = function() {
+Data.prototype.drawAxes = function() {
 	var xScale = d3.scaleLinear()
 		.domain([
 			0,
@@ -46,10 +46,13 @@ Data.prototype.drawScales = function() {
 		.enter()
 		.append('circle');
 
-	var labels = svg.selectAll('text')
-		.data(this.dataset)
-		.enter()
-		.append('text');
+	var xAxis = d3.axisBottom()
+		.scale(xScale)
+		.tickValues([0, 100, 200, 300, 400]);
+
+	var yAxis = d3.axisLeft()
+		.scale(yScale)
+		.tickValues([0, 40, 80]);
 
 	circles
 		.attr('class', 'circle')
@@ -63,16 +66,13 @@ Data.prototype.drawScales = function() {
 			return aScale(d[1]);
 		});
 
-	labels
-		.text(function(d) {
-			return d[0] + ', ' + d[1];
-		})
-		.attr('class', 'label')
-		.attr('text-anchor', 'middle')
-		.attr('x', function(d) {
-			return xScale(d[0]);
-		})
-		.attr('y', function(d) {
-			return yScale(d[1] + 8);
-		});
+	svg.append('g')
+		.attr('class', 'axis')
+		.attr('transform', 'translate(0, ' + (this.height - this.padding) + ')')
+		.call(xAxis);
+
+	svg.append('g')
+		.attr('class', 'axis')
+		.attr('transform', 'translate(' + (this.padding) + ')')
+		.call(yAxis);
 }

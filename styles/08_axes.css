@@ -11,11 +11,13 @@ svg {
   fill: teal;
 }
 
-.label {
+.axis text {
   font-family: sans-serif;
   font-size: 11px;
+  fill: red;
 }
 
-.scattershot .label {
-  fill: black;
+.axis path,
+.axis line {
+  stroke: red;
 }
