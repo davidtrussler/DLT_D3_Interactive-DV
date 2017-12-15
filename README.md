@@ -24,3 +24,5 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Refines the Scattershot Chart with use of Scales
 
 ![Bar Chart](screenshots/07_Scales.png)
+
+## 08_Axes
