@@ -26,3 +26,5 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 ![Bar Chart](screenshots/07_Scales.png)
 
 ## 08_Axes
+
+* Refines the Scattershot Chart with use of Axes in place of labels
