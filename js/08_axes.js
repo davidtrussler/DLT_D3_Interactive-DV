@@ -54,11 +54,6 @@ Data.prototype.drawAxes = function() {
 		.scale(yScale)
 		.tickValues([0, 40, 80]);
 
-	// var labels = svg.selectAll('text')
-	// 	.data(this.dataset)
-	// 	.enter()
-	// 	.append('text');
-
 	circles
 		.attr('class', 'circle')
 		.attr('cx', function(d) {
@@ -70,19 +65,6 @@ Data.prototype.drawAxes = function() {
 		.attr('r', function(d) {
 			return aScale(d[1]);
 		});
-
-	// labels
-	// 	.text(function(d) {
-	// 		return d[0] + ', ' + d[1];
-	// 	})
-	// 	.attr('class', 'label')
-	// 	.attr('text-anchor', 'middle')
-	// 	.attr('x', function(d) {
-	// 		return xScale(d[0]);
-	// 	})
-	// 	.attr('y', function(d) {
-	// 		return yScale(d[1] + 8);
-	// 	});
 
 	svg.append('g')
 		.attr('class', 'axis')
