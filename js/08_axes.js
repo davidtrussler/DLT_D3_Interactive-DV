@@ -4,7 +4,7 @@ var Data = function() {
 	];
 	this.width = 540;
 	this.height = 140;
-	this.padding = 20;
+	this.padding = 25;
 };
 
 Data.prototype.drawAxes = function() {
