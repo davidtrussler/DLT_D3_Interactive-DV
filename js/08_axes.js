@@ -48,7 +48,11 @@ Data.prototype.drawAxes = function() {
 
 	var xAxis = d3.axisBottom()
 		.scale(xScale)
-		.ticks(5);
+		.tickValues([0, 100, 200, 300, 400]);
+
+	var yAxis = d3.axisLeft()
+		.scale(yScale)
+		.tickValues([0, 40, 80]);
 
 	// var labels = svg.selectAll('text')
 	// 	.data(this.dataset)
@@ -84,4 +88,9 @@ Data.prototype.drawAxes = function() {
 		.attr('class', 'axis')
 		.attr('transform', 'translate(0, ' + (this.height - this.padding) + ')')
 		.call(xAxis);
+
+	svg.append('g')
+		.attr('class', 'axis')
+		.attr('transform', 'translate(' + (this.padding) + ')')
+		.call(yAxis);
 }
