@@ -46,7 +46,9 @@ Data.prototype.drawAxes = function() {
 		.enter()
 		.append('circle');
 
-	var xAxis = d3.axisBottom(xScale);
+	var xAxis = d3.axisBottom()
+		.scale(xScale)
+		.ticks(5);
 
 	// var labels = svg.selectAll('text')
 	// 	.data(this.dataset)
