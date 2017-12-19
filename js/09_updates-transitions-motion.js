@@ -28,7 +28,7 @@ Data.prototype.drawBarchart = function() {
 		.attr('width', this.width)
 		.attr('height', this.height);
 
-	var rects = svg.selectAll('rect')
+	svg.selectAll('rect')
 		.data(this.dataset)
 		.enter()
 		.append('rect')
@@ -44,12 +44,10 @@ Data.prototype.drawBarchart = function() {
 		})
 		.attr('class', 'bar');
 
-	var labels = svg.selectAll('text')
+	svg.selectAll('text')
 		.data(this.dataset)
 		.enter()
-		.append('text');
-
-	labels
+		.append('text')
 		.text(function(d) {
 			return d;
 		})
@@ -65,6 +63,28 @@ Data.prototype.drawBarchart = function() {
 	d3.select('#update')
 		.on('click', function() {
 			d3.event.preventDefault();
-			console.log('update!');
+
+			_this.dataset = [16, 48, 40, 52, 24, 60, 72, 16, 80, 48, 88, 95, 84, 48, 20];
+
+			svg.selectAll('rect')
+				.data(_this.dataset)
+				.attr('y', function(d) {
+					return yScale(d);
+				})
+				.attr('height', function(d) {
+					return _this.height - yScale(d) - _this.padding;
+				});
+
+			svg.selectAll('text')
+				.data(_this.dataset)
+				.text(function(d) {
+					return d;
+				})
+				.attr('x', function(d, i) {
+					return xScale(i) + (xScale.bandwidth() / 2);
+				})
+				.attr('y', function(d) {
+					return yScale(d) + 13;
+				});
 		});
 }
