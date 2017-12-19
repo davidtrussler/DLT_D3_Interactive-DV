@@ -61,4 +61,10 @@ Data.prototype.drawBarchart = function() {
 		.attr('y', function(d) {
 			return yScale(d) + 13;
 		})
+
+	d3.select('#update')
+		.on('click', function() {
+			d3.event.preventDefault();
+			console.log('update!');
+		});
 }
