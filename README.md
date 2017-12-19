@@ -36,3 +36,8 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Refines the original Bar Chart to use Scales
 
 ![Barchart-Scales](screenshots/09_Barchart-scales.png)
+
+* Updates values to a new dataset
+* Adds transitions to the udpate
+
+![Barchart-Transition](screenshots/09_Barchart-transition.gif)

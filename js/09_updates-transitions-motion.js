@@ -62,12 +62,22 @@ Data.prototype.drawBarchart = function() {
 
 	d3.select('#update')
 		.on('click', function() {
-			d3.event.preventDefault();
+			var duration = 2000;
+			var ease = d3.easeLinear;
+			var delay = function(d, i) {
+				return i * 100;
+			};
 
 			_this.dataset = [16, 48, 40, 52, 24, 60, 72, 16, 80, 48, 88, 95, 84, 48, 20];
 
+			d3.event.preventDefault();
+
 			svg.selectAll('rect')
 				.data(_this.dataset)
+				.transition()
+				.delay(delay)
+				.duration(duration)
+				.ease(ease)
 				.attr('y', function(d) {
 					return yScale(d);
 				})
@@ -77,6 +87,10 @@ Data.prototype.drawBarchart = function() {
 
 			svg.selectAll('text')
 				.data(_this.dataset)
+				.transition()
+				.delay(delay)
+				.duration(duration)
+				.ease(ease)
 				.text(function(d) {
 					return d;
 				})
