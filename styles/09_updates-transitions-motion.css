@@ -19,3 +19,7 @@ svg {
 .barchart .label {
   fill: white;
 }
+
+.barchart .label.low {
+  fill: black;
+}

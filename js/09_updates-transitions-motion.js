@@ -58,22 +58,26 @@ Data.prototype.drawBarchart = function() {
 		})
 		.attr('y', function(d) {
 			return yScale(d) + 13;
-		})
+		});
 
 	d3.select('#update')
 		.on('click', function() {
-			var duration = 2000;
+			var duration = 500;
 			var ease = d3.easeLinear;
+			var newDataset = [];
+			var numValues = _this.dataset.length;
 			var delay = function(d, i) {
-				return i * 100;
+				return i * 20;
 			};
-
-			_this.dataset = [16, 48, 40, 52, 24, 60, 72, 16, 80, 48, 88, 95, 84, 48, 20];
 
 			d3.event.preventDefault();
 
+			for (var i = 0, max = numValues; i < numValues; i++) {
+				newDataset.push(Math.floor(Math.random() * 100));
+			}
+
 			svg.selectAll('rect')
-				.data(_this.dataset)
+				.data(newDataset)
 				.transition()
 				.delay(delay)
 				.duration(duration)
@@ -86,7 +90,7 @@ Data.prototype.drawBarchart = function() {
 				});
 
 			svg.selectAll('text')
-				.data(_this.dataset)
+				.data(newDataset)
 				.transition()
 				.delay(delay)
 				.duration(duration)
@@ -98,7 +102,18 @@ Data.prototype.drawBarchart = function() {
 					return xScale(i) + (xScale.bandwidth() / 2);
 				})
 				.attr('y', function(d) {
-					return yScale(d) + 13;
-				});
+					if (d < 8) {
+						return yScale(d) - 4;
+					} else {
+						return yScale(d) + 13;
+					}
+				})
+				.attr('class', function(d) {
+					if (d < 8) {
+						return 'label low';
+					} else {
+						return 'label';
+					}
+				})
 		});
 }
