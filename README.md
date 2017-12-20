@@ -41,3 +41,5 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Adds transitions to the udpate
 
 ![Barchart-Transition](screenshots/09_Barchart-transition.gif)
+
+* Renders and updates chart with random values
