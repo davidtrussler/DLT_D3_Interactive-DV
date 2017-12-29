@@ -7,6 +7,7 @@ svg {
   margin: 0 0 15px 0;
 }
 
+/* Barchart */
 .bar {
   fill: teal;
 }
@@ -22,4 +23,20 @@ svg {
 
 .barchart .label.low {
   fill: black;
+}
+
+/* Scatterplot */
+.circle {
+  fill: teal;
+}
+
+.axis text {
+  font-family: sans-serif;
+  font-size: 11px;
+  fill: red;
+}
+
+.axis path,
+.axis line {
+  stroke: red;
 }

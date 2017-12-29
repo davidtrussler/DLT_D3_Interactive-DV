@@ -37,9 +37,10 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 
 ![Barchart-Scales](screenshots/09_Barchart-scales.png)
 
-* Updates values to a new dataset
-* Adds transitions to the udpate
+* Reintroduces the Scattershot Chart
 
-![Barchart-Transition](screenshots/09_Barchart-transition.gif)
+IMG
 
-* Renders and updates chart with random values
+* Allows values to be updated and adds transitions to the udpate on both charts
+
+IMG of both charts in place of ![Barchart-Transition](screenshots/09_Barchart-transition.gif)

@@ -1,6 +1,7 @@
 var Data = function() {
 	this.numValues = 15;
-	this.maxValue = 100;
+	this.maxXValue = 500;
+	this.maxYValue = 100;
 	this.width = 600;
 	this.height = 250;
 	this.padding = 20;
@@ -8,7 +9,7 @@ var Data = function() {
 
 Data.prototype.drawBarchart = function() {
 	var _this = this;
-	var dataset = this._getDataset();
+	var dataset = this._getDataset('barchart');
 
 	var xScale = d3.scaleBand()
 		.domain(d3.range(dataset.length))
@@ -16,7 +17,7 @@ Data.prototype.drawBarchart = function() {
 		.paddingInner(0.05);
 
 	var yScale = d3.scaleLinear()
-		.domain([0, this.maxValue])
+		.domain([0, this.maxYValue])
 		.range([this.height - this.padding, this.padding]);
 
 	var svg = d3.select('body')
@@ -64,7 +65,7 @@ Data.prototype.drawBarchart = function() {
 		.on('click', function() {
 			var duration = 500;
 			var ease = d3.easeLinear;
-			var dataset = _this._getDataset();
+			var dataset = _this._getDataset('barchart');
 			var numValues = dataset.length;
 			var delay = function(d, i) {
 				return i * 20;
@@ -106,11 +107,105 @@ Data.prototype.drawBarchart = function() {
 		});
 }
 
-Data.prototype._getDataset = function() {
+Data.prototype.drawScatterplot = function() {
+	var _this = this;
+	var dataset = this._getDataset('scatterplot');
+
+	var xScale = d3.scaleLinear()
+		.domain([0, this.maxXValue])
+		.range([this.padding, this.width - this.padding]);
+
+	var yScale = d3.scaleLinear()
+		.domain([0, this.maxYValue])
+		.range([this.height - this.padding, this.padding]);
+
+	var aScale = d3.scaleSqrt()
+		.domain([0, this.maxYValue])
+		.range([0, 6]);
+
+	var svg = d3.select('body')
+		.append('svg')
+		.attr('class', 'scatterplot')
+		.attr('width', this.width)
+		.attr('height', this.height);
+
+	var circles = svg.selectAll('circle')
+		.data(dataset)
+		.enter()
+		.append('circle');
+
+	var xAxis = d3.axisBottom()
+		.scale(xScale)
+		.tickValues([0, 100, 200, 300, 400]);
+
+	var yAxis = d3.axisLeft()
+		.scale(yScale)
+		.tickValues([0, 40, 80]);
+
+	circles
+		.attr('class', 'circle')
+		.attr('cx', function(d) {
+			return xScale(d[0]);
+		})
+		.attr('cy', function(d) {
+			return yScale(d[1]);
+		})
+		.attr('r', function(d) {
+			return aScale(d[1]);
+		});
+
+	svg.append('g')
+		.attr('class', 'axis')
+		.attr('transform', 'translate(0, ' + (this.height - this.padding) + ')')
+		.call(xAxis);
+
+	svg.append('g')
+		.attr('class', 'axis')
+		.attr('transform', 'translate(' + (this.padding) + ')')
+		.call(yAxis);
+
+	d3.select('#update')
+		.on('click', function() {
+			var duration = 500;
+			var ease = d3.easeLinear;
+			var dataset = _this._getDataset('scatterplot');
+			var numValues = dataset.length;
+
+			d3.event.preventDefault();
+
+			svg.selectAll('circle')
+				.data(dataset)
+				.transition()
+				.duration(duration)
+				.ease(ease)
+				.attr('cx', function(d) {
+					return xScale(d[0]);
+				})
+				.attr('cy', function(d) {
+					return yScale(d[1]);
+				})
+				.attr('r', function(d) {
+					return aScale(d[1]);
+				});
+		});
+}
+
+Data.prototype._getDataset = function(type) {
 	var dataset = [];
 
-	for (var i = 0, max = this.numValues; i < this.numValues; i++) {
-		dataset.push(Math.floor(Math.random() * this.maxValue));
+	if (type === 'barchart') {
+		for (var i = 0, max = this.numValues; i < this.numValues; i++) {
+			dataset.push(Math.floor(Math.random() * this.maxYValue));
+		}
+	} else if (type === 'scatterplot') {
+		for (var i = 0, max = this.numValues; i < this.numValues; i++) {
+			var values = [];
+
+			values[0] = Math.floor(Math.random() * this.maxXValue);
+			values[1] = Math.floor(Math.random() * this.maxYValue);
+
+			dataset.push(values);
+		}
 	}
 
 	return dataset;
