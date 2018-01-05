@@ -5,7 +5,7 @@ Barchart.prototype.draw = function() {
 
 	this.dataset = this._getDataset('initial');
 
-	var xScale = d3.scaleBand()
+	this.xScale = d3.scaleBand()
 		.domain(d3.range(this.dataset.length))
 		.rangeRound([this.padding, this.width - this.padding])
 		.paddingInner(0.05);
@@ -25,9 +25,9 @@ Barchart.prototype.draw = function() {
 		.enter()
 		.append('rect')
 		.attr('x', function(d, i) {
-			return xScale(i);
+			return _this.xScale(i);
 		})
-		.attr('width', xScale.bandwidth)
+		.attr('width', _this.xScale.bandwidth)
 		.attr('y', function(d) {
 			return yScale(d);
 		})
@@ -46,7 +46,7 @@ Barchart.prototype.draw = function() {
 		.attr('class', 'label')
 		.attr('text-anchor', 'middle')
 		.attr('x', function(d, i) {
-			return xScale(i) + (xScale.bandwidth() / 2);
+			return _this.xScale(i) + (_this.xScale.bandwidth() / 2);
 		})
 		.attr('y', function(d) {
 			return _this._setPosition(yScale, d);
@@ -57,40 +57,62 @@ Barchart.prototype.draw = function() {
 
 	d3.select('#update')
 		.on('click', function() {
+			d3.event.preventDefault();
+
 			var dataset = _this._getDataset('increment');
 			var duration = 500;
 			var ease = d3.easeLinear;
 			var numValues = dataset.length;
-			var delay = function(d, i) {
-				return i * 20;
-			};
+			// var delay = function(d, i) {
+			// 	return i * 20;
+			// };
 
-			d3.event.preventDefault();
+			console.log('dataset: ', dataset);
 
-			svg.selectAll('rect')
-				.data(dataset)
-				.transition()
-				.delay(delay)
-				.duration(duration)
-				.ease(ease)
+			// Update xScale
+			_this.xScale.domain(d3.range(dataset.length));
+
+			var bars = svg.selectAll('rect')
+				.data(dataset);
+
+			bars.enter()
+				.append('rect')
+				.attr('x', _this.width)
+				.attr('width', _this.xScale.bandwidth())
 				.attr('y', function(d) {
 					return yScale(d);
 				})
 				.attr('height', function(d) {
 					return _this.height - yScale(d) - _this.padding;
-				});
+				})
+				.merge(bars)
+				.transition()
+				// .delay(delay)
+				.duration(duration)
+				.ease(ease)
+				.attr('x', function(d, i) {
+					return _this.xScale(i);
+				})
+				.attr('width', _this.xScale.bandwidth())
+				.attr('class', 'bar');
+				// .attr('y', function(d) {
+				// 	return yScale(d);
+				// })
+				// .attr('height', function(d) {
+				// 	return _this.height - yScale(d) - _this.padding;
+				// });
 
 			svg.selectAll('text')
 				.data(dataset)
 				.transition()
-				.delay(delay)
+				// .delay(delay)
 				.duration(duration)
 				.ease(ease)
 				.text(function(d) {
 					return d;
 				})
 				.attr('x', function(d, i) {
-					return xScale(i) + (xScale.bandwidth() / 2);
+					return _this.xScale(i) + (_this.xScale.bandwidth() / 2);
 				})
 				.attr('y', function(d) {
 					return _this._setPosition(yScale, d);
