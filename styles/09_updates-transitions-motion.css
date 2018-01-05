@@ -26,10 +26,6 @@ svg {
 }
 
 /* Scatterplot */
-.circle {
-  fill: teal;
-}
-
 .axis text {
   font-family: sans-serif;
   font-size: 11px;

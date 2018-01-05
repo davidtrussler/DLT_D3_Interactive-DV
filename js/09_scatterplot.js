@@ -45,7 +45,8 @@ Scatterplot.prototype.draw = function() {
 		})
 		.attr('r', function(d) {
 			return aScale(d[1]);
-		});
+		})
+		.attr('fill', this.fillColour);
 
 	svg.append('g')
 		.attr('class', 'axis')
@@ -59,7 +60,7 @@ Scatterplot.prototype.draw = function() {
 
 	d3.select('#update')
 		.on('click', function() {
-			var duration = 500;
+			var duration = 1000;
 			var ease = d3.easeLinear;
 			var dataset = _this._getDataset();
 			var numValues = dataset.length;
@@ -79,7 +80,14 @@ Scatterplot.prototype.draw = function() {
 				})
 				.attr('r', function(d) {
 					return aScale(d[1]);
-				});
+				})
+				.on('start', function() {
+					d3.select(this)
+						.attr('fill', 'magenta')
+				})
+				.transition()
+				.duration(duration)
+				.attr('fill', _this.fillColour);
 		});
 }
 
