@@ -22,7 +22,10 @@ Scatterplot.prototype.draw = function() {
 		.attr('width', this.width)
 		.attr('height', this.height);
 
-	var circles = svg.selectAll('circle')
+	var circles = svg.append('g')
+		.attr('id', 'circles')
+		.attr('clip-path', 'url(#chart-area)')
+		.selectAll('circle')
 		.data(dataset)
 		.enter()
 		.append('circle');
@@ -34,6 +37,14 @@ Scatterplot.prototype.draw = function() {
 	var yAxis = d3.axisLeft()
 		.scale(yScale)
 		.tickValues([0, 40, 80]);
+
+	svg.append('clipPath')
+		.attr('id', 'chart-area')
+		.append('rect')
+		.attr('x', this.padding)
+		.attr('y', this.padding)
+		.attr('width', this.width - (this.padding * 2))
+		.attr('height', this.height - (this.padding * 2));
 
 	circles
 		.attr('class', 'circle')
