@@ -27,6 +27,6 @@ function init() {
   scatterplot.padding = padding;
   scatterplot.fillColour = 'teal';
 
-  // barchart.draw();
-  scatterplot.draw();
+  barchart.draw();
+  // scatterplot.draw();
 }

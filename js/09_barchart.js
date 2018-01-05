@@ -2,10 +2,11 @@ var Barchart = function() {};
 
 Barchart.prototype.draw = function() {
 	var _this = this;
-	var dataset = this._getDataset();
+
+	this.dataset = this._getDataset('initial');
 
 	var xScale = d3.scaleBand()
-		.domain(d3.range(dataset.length))
+		.domain(d3.range(this.dataset.length))
 		.rangeRound([this.padding, this.width - this.padding])
 		.paddingInner(0.05);
 
@@ -20,7 +21,7 @@ Barchart.prototype.draw = function() {
 		.attr('height', this.height);
 
 	svg.selectAll('rect')
-		.data(dataset)
+		.data(this.dataset)
 		.enter()
 		.append('rect')
 		.attr('x', function(d, i) {
@@ -36,7 +37,7 @@ Barchart.prototype.draw = function() {
 		.attr('class', 'bar');
 
 	svg.selectAll('text')
-		.data(dataset)
+		.data(this.dataset)
 		.enter()
 		.append('text')
 		.text(function(d) {
@@ -56,9 +57,9 @@ Barchart.prototype.draw = function() {
 
 	d3.select('#update')
 		.on('click', function() {
+			var dataset = _this._getDataset('increment');
 			var duration = 500;
 			var ease = d3.easeLinear;
-			var dataset = _this._getDataset();
 			var numValues = dataset.length;
 			var delay = function(d, i) {
 				return i * 20;
@@ -100,10 +101,16 @@ Barchart.prototype.draw = function() {
 		});
 }
 
-Barchart.prototype._getDataset = function() {
-	var dataset = [];
+Barchart.prototype._getDataset = function(step) {
+	if (step === 'initial') {
+		var dataset = [];
 
-	for (var i = 0, max = this.numValues; i < this.numValues; i++) {
+		for (var i = 0, max = this.numValues; i < this.numValues; i++) {
+			dataset.push(Math.floor(Math.random() * this.maxYValue));
+		}
+	} else if (step === 'increment') {
+		var dataset = this.dataset;
+
 		dataset.push(Math.floor(Math.random() * this.maxYValue));
 	}
 
