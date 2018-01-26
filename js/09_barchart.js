@@ -63,9 +63,6 @@ Barchart.prototype.draw = function() {
 			var duration = 500;
 			var ease = d3.easeLinear;
 			var numValues = dataset.length;
-			// var delay = function(d, i) {
-			// 	return i * 20;
-			// };
 
 			console.log('dataset: ', dataset);
 
@@ -87,7 +84,6 @@ Barchart.prototype.draw = function() {
 				})
 				.merge(bars)
 				.transition()
-				// .delay(delay)
 				.duration(duration)
 				.ease(ease)
 				.attr('x', function(d, i) {
@@ -95,31 +91,30 @@ Barchart.prototype.draw = function() {
 				})
 				.attr('width', _this.xScale.bandwidth())
 				.attr('class', 'bar');
-				// .attr('y', function(d) {
-				// 	return yScale(d);
-				// })
-				// .attr('height', function(d) {
-				// 	return _this.height - yScale(d) - _this.padding;
-				// });
 
-			svg.selectAll('text')
-				.data(dataset)
-				.transition()
-				// .delay(delay)
-				.duration(duration)
-				.ease(ease)
+			var labels = svg.selectAll('text')
+				.data(dataset);
+
+			labels.enter()
+				.append('text')
 				.text(function(d) {
 					return d;
 				})
-				.attr('x', function(d, i) {
-					return _this.xScale(i) + (_this.xScale.bandwidth() / 2);
-				})
+				.attr('text-anchor', 'middle')
+				.attr('x', _this.width + (_this.xScale.bandwidth() / 2))
 				.attr('y', function(d) {
 					return _this._setPosition(yScale, d);
 				})
+				.merge(labels)
+				.transition()
+				.duration(duration)
+				.ease(ease)
+				.attr('x', function(d, i) {
+					return _this.xScale(i) + (_this.xScale.bandwidth() / 2);
+				})
 				.attr('class', function(d) {
 					return _this._setClass(d);
-				})
+				});
 		});
 }
 
