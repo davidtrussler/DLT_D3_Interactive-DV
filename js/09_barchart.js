@@ -3,6 +3,8 @@ var Barchart = function() {};
 Barchart.prototype.draw = function() {
 	var _this = this;
 
+	this.duration = 500;
+	this.ease = d3.easeLinear;
 	this.dataset = this._getDataset('initial');
 
 	this.xScale = d3.scaleBand()
@@ -55,22 +57,19 @@ Barchart.prototype.draw = function() {
 			return _this._setClass(d);
 		})
 
-	d3.select('#update')
+	d3.select('#add')
 		.on('click', function() {
 			d3.event.preventDefault();
 
-			var dataset = _this._getDataset('increment');
-			var duration = 500;
-			var ease = d3.easeLinear;
-			var numValues = dataset.length;
+			_this.dataset = _this._getDataset('increment');
 
-			console.log('dataset: ', dataset);
+			var numValues = _this.dataset.length;
 
 			// Update xScale
-			_this.xScale.domain(d3.range(dataset.length));
+			_this.xScale.domain(d3.range(_this.dataset.length));
 
 			var bars = svg.selectAll('rect')
-				.data(dataset);
+				.data(_this.dataset);
 
 			bars.enter()
 				.append('rect')
@@ -84,8 +83,8 @@ Barchart.prototype.draw = function() {
 				})
 				.merge(bars)
 				.transition()
-				.duration(duration)
-				.ease(ease)
+				.duration(_this.duration)
+				.ease(_this.ease)
 				.attr('x', function(d, i) {
 					return _this.xScale(i);
 				})
@@ -93,7 +92,7 @@ Barchart.prototype.draw = function() {
 				.attr('class', 'bar');
 
 			var labels = svg.selectAll('text')
-				.data(dataset);
+				.data(_this.dataset);
 
 			labels.enter()
 				.append('text')
@@ -107,14 +106,69 @@ Barchart.prototype.draw = function() {
 				})
 				.merge(labels)
 				.transition()
-				.duration(duration)
-				.ease(ease)
+				.duration(_this.duration)
+				.ease(_this.ease)
 				.attr('x', function(d, i) {
 					return _this.xScale(i) + (_this.xScale.bandwidth() / 2);
 				})
 				.attr('class', function(d) {
 					return _this._setClass(d);
 				});
+		});
+
+	d3.select('#remove')
+		.on('click', function() {
+			d3.event.preventDefault();
+
+			// Remove one value from dataset
+			_this.dataset.pop();
+
+			// Update xScale domain
+			_this.xScale.domain(d3.range(_this.dataset.length));
+
+			// Select …
+			var bars = svg.selectAll('rect')
+				.data(_this.dataset);
+			var labels = svg.selectAll('text')
+				.data(_this.dataset);
+
+			// Bars enter …
+			bars.enter()
+				.merge(bars)
+				.transition()
+				.duration(_this.duration)
+				.ease(_this.ease)
+				.attr('x', function(d, i) {
+					return _this.xScale(i);
+				})
+				.attr('width', _this.xScale.bandwidth());
+
+			// Bars exit …
+			bars.exit()
+				.transition()
+				.duration(_this.duration)
+				.ease(_this.ease)
+				.attr("x", _this.width)
+				.remove();
+
+			// Labels enter …
+			labels.enter()
+				.append('text')
+				.merge(labels)
+				.transition()
+				.duration(_this.duration)
+				.ease(_this.ease)
+				.attr('x', function(d, i) {
+					return _this.xScale(i) + (_this.xScale.bandwidth() / 2);
+				})
+
+			// Bars exit …
+			labels.exit()
+				.transition()
+				.duration(_this.duration)
+				.ease(_this.ease)
+				.attr("x", _this.width + (_this.xScale.bandwidth() / 2))
+				.remove();
 		});
 }
 
