@@ -48,3 +48,8 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Re-introduces the Bar chart and dynamically adds new values
 
 ![Barchart-Addition](screenshots/09_Barchart-add-values.gif)
+
+* Dynamically removes values from the Bar chart
+
+![Barchart-Addition](screenshots/09_Barchart-remove-values.gif)
+
