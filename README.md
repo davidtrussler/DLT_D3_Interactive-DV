@@ -30,3 +30,26 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Refines the Scattershot Chart with use of Axes in place of labels
 
 ![Axes](screenshots/08_Axes.png)
+
+## 09_Updates-transitions-motion
+
+* Refines the original Bar Chart to use Scales
+
+![Barchart-Scales](screenshots/09_Barchart-scales.png)
+
+* Adds random updateable values to the Barchart
+
+![Barchart-Transition](screenshots/09_Barchart-transition.gif)
+
+* Re-introduces the Scatterplot chart and adds random updateable values
+
+![Scatterplot-Transition](screenshots/09_Scatterplot-transition.gif)
+
+* Re-introduces the Bar chart and dynamically adds new values
+
+![Barchart-Addition](screenshots/09_Barchart-add-values.gif)
+
+* Dynamically removes values from the Bar chart
+
+![Barchart-Addition](screenshots/09_Barchart-remove-values.gif)
+

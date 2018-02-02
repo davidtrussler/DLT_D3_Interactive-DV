@@ -7,10 +7,25 @@ svg {
   margin: 0 0 15px 0;
 }
 
-.circle {
+/* Barchart */
+.bar {
   fill: teal;
 }
 
+.label {
+  font-family: sans-serif;
+  font-size: 11px;
+}
+
+.barchart .label {
+  fill: white;
+}
+
+.barchart .label.low {
+  fill: black;
+}
+
+/* Scatterplot */
 .axis text {
   font-family: sans-serif;
   font-size: 11px;
