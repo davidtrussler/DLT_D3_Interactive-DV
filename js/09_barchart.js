@@ -6,6 +6,9 @@ Barchart.prototype.draw = function() {
 	this.duration = 500;
 	this.ease = d3.easeLinear;
 	this.dataset = this._getDataset('initial');
+	this.key = function(d) {
+		return d.key;
+	}
 
 	this.xScale = d3.scaleBand()
 		.domain(d3.range(this.dataset.length))
@@ -23,7 +26,7 @@ Barchart.prototype.draw = function() {
 		.attr('height', this.height);
 
 	svg.selectAll('rect')
-		.data(this.dataset)
+		.data(this.dataset, this.key)
 		.enter()
 		.append('rect')
 		.attr('x', function(d, i) {
@@ -31,19 +34,19 @@ Barchart.prototype.draw = function() {
 		})
 		.attr('width', _this.xScale.bandwidth)
 		.attr('y', function(d) {
-			return yScale(d);
+			return yScale(d.value);
 		})
 		.attr('height', function(d) {
-			return _this.height - yScale(d) - _this.padding;
+			return _this.height - yScale(d.value) - _this.padding;
 		})
 		.attr('class', 'bar');
 
 	svg.selectAll('text')
-		.data(this.dataset)
+		.data(this.dataset, this.key)
 		.enter()
 		.append('text')
 		.text(function(d) {
-			return d;
+			return d.value;
 		})
 		.attr('class', 'label')
 		.attr('text-anchor', 'middle')
@@ -51,7 +54,7 @@ Barchart.prototype.draw = function() {
 			return _this.xScale(i) + (_this.xScale.bandwidth() / 2);
 		})
 		.attr('y', function(d) {
-			return _this._setPosition(yScale, d);
+			return _this._setPosition(yScale, d.value);
 		})
 		.attr('class', function(d) {
 			return _this._setClass(d);
@@ -69,17 +72,17 @@ Barchart.prototype.draw = function() {
 			_this.xScale.domain(d3.range(_this.dataset.length));
 
 			var bars = svg.selectAll('rect')
-				.data(_this.dataset);
+				.data(_this.dataset, this.key);
 
 			bars.enter()
 				.append('rect')
 				.attr('x', _this.width)
 				.attr('width', _this.xScale.bandwidth())
 				.attr('y', function(d) {
-					return yScale(d);
+					return yScale(d.value);
 				})
 				.attr('height', function(d) {
-					return _this.height - yScale(d) - _this.padding;
+					return _this.height - yScale(d.value) - _this.padding;
 				})
 				.merge(bars)
 				.transition()
@@ -92,17 +95,17 @@ Barchart.prototype.draw = function() {
 				.attr('class', 'bar');
 
 			var labels = svg.selectAll('text')
-				.data(_this.dataset);
+				.data(_this.dataset, this.key);
 
 			labels.enter()
 				.append('text')
 				.text(function(d) {
-					return d;
+					return d.value;
 				})
 				.attr('text-anchor', 'middle')
 				.attr('x', _this.width + (_this.xScale.bandwidth() / 2))
 				.attr('y', function(d) {
-					return _this._setPosition(yScale, d);
+					return _this._setPosition(yScale, d.value);
 				})
 				.merge(labels)
 				.transition()
@@ -128,9 +131,9 @@ Barchart.prototype.draw = function() {
 
 			// Select …
 			var bars = svg.selectAll('rect')
-				.data(_this.dataset);
+				.data(_this.dataset, this.key);
 			var labels = svg.selectAll('text')
-				.data(_this.dataset);
+				.data(_this.dataset, this.key);
 
 			// Bars enter …
 			bars.enter()
@@ -177,12 +180,15 @@ Barchart.prototype._getDataset = function(step) {
 		var dataset = [];
 
 		for (var i = 0, max = this.numValues; i < this.numValues; i++) {
-			dataset.push(Math.floor(Math.random() * this.maxYValue));
+			var obj = {key: i, value: Math.floor(Math.random() * this.maxYValue)};
+
+			dataset.push(obj);
 		}
 	} else if (step === 'increment') {
 		var dataset = this.dataset;
+		var obj = {key: dataset[dataset.length - 1].key + 1, value: Math.floor(Math.random() * this.maxYValue)};
 
-		dataset.push(Math.floor(Math.random() * this.maxYValue));
+		dataset.push(obj);
 	}
 
 	return dataset;
@@ -197,7 +203,7 @@ Barchart.prototype._setPosition = function(yScale, d) {
 }
 
 Barchart.prototype._setClass = function(d) {
-	if (d < 8) {
+	if (d.value < 8) {
 		return 'label low';
 	} else {
 		return 'label';
