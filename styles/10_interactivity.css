@@ -8,10 +8,6 @@ svg {
 }
 
 /* Barchart */
-.bar {
-  fill: teal;
-}
-
 .label {
   font-family: sans-serif;
   font-size: 11px;
@@ -19,20 +15,9 @@ svg {
 
 .barchart .label {
   fill: white;
+  pointer-events: none;
 }
 
 .barchart .label.low {
   fill: black;
-}
-
-/* Scatterplot */
-.axis text {
-  font-family: sans-serif;
-  font-size: 11px;
-  fill: red;
-}
-
-.axis path,
-.axis line {
-  stroke: red;
 }
