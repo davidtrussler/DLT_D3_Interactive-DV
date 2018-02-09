@@ -3,7 +3,7 @@ var Barchart = function() {};
 Barchart.prototype.draw = function() {
 	var _this = this;
 
-	this.duration = 250;
+	this.duration = 500;
 	this.ease = d3.easeLinear;
 	this.dataset = this._getDataset('initial');
 	this.key = function(d) {
@@ -43,13 +43,14 @@ Barchart.prototype.draw = function() {
 		.attr('fill', _this.colour)
 		.on('mouseover', function() {
 			d3.select(this)
-				.transition()
-				.duration(_this.duration)
+				.transition('hover')
+				.duration(_this.duration / 4)
+				.ease(_this.ease)
 				.attr('fill', _this.colour_hover);
 		})
 		.on('mouseout', function() {
 			d3.select(this)
-				.transition()
+				.transition('hover')
 				.duration(_this.duration)
 				.attr('fill', _this.colour);
 		});
@@ -71,7 +72,38 @@ Barchart.prototype.draw = function() {
 		})
 		.attr('class', function(d) {
 			return _this._setClass(d);
+		});
+
+	d3.select('#sort')
+		.on('click', function() {
+			_this._sortBars(svg);
+		});
+}
+
+Barchart.prototype._sortBars = function(svg) {
+	var _this = this;
+
+	svg.selectAll('rect')
+		.sort(function(a, b) {
+			return d3.ascending(a.value, b.value);
 		})
+		.transition('sort')
+		.duration(_this.duration)
+		.ease(_this.ease)
+		.attr('x', function(d, i) {
+			return _this.xScale(i);
+		});
+
+	svg.selectAll('text')
+		.sort(function(a, b) {
+			return d3.ascending(a.value, b.value);
+		})
+		.transition('sort')
+		.duration(_this.duration)
+		.ease(_this.ease)
+		.attr('x', function(d, i) {
+			return _this.xScale(i) + (_this.xScale.bandwidth() / 2);
+		});
 }
 
 Barchart.prototype._getDataset = function(step) {

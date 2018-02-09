@@ -58,3 +58,7 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Adds transitions on hover event
 
 ![Transition-hover](screenshots/10_transition-hover.gif)
+
+* Adds Sort event
+
+![sort](screenshots/10_sort.gif)
