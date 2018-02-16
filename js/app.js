@@ -7,6 +7,8 @@ function init() {
   var width = 600;
   var height = 250;
   var padding = 20;
+  var colour = 'teal';
+  var colour_hover = 'orange';
 
 	var barchart = new Barchart();
 
@@ -16,17 +18,8 @@ function init() {
   barchart.width = width;
   barchart.height = height;
   barchart.padding = padding;
-
-  var scatterplot = new Scatterplot();
-
-  scatterplot.numValues = numValues;
-  scatterplot.maxXValue = maxXValue;
-  scatterplot.maxYValue = maxYValue;
-  scatterplot.width = width;
-  scatterplot.height = height;
-  scatterplot.padding = padding;
-  scatterplot.fillColour = 'teal';
+  barchart.colour = colour;
+  barchart.colour_hover = colour_hover;
 
   barchart.draw();
-  // scatterplot.draw();
 }
