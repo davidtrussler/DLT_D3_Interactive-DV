@@ -19,7 +19,7 @@ Barchart.prototype.draw = function() {
 		.domain([0, this.maxYValue])
 		.range([this.height - this.padding, this.padding]);
 
-	var svg = d3.select('body')
+	var svg = d3.select('.svg-container')
 		.append('svg')
 		.attr('class', 'barchart')
 		.attr('width', this.width)
@@ -41,37 +41,30 @@ Barchart.prototype.draw = function() {
 		})
 		.attr('class', 'bar')
 		.attr('fill', _this.colour)
-		.on('mouseover', function() {
+		.on('mouseover', function(d) {
+			var xPosition = parseFloat(d3.select(this).attr('x')) + _this.xScale.bandwidth() / 2;
+			var yPosition = parseFloat(d3.select(this).attr('y')) / 2 + (_this.height / 2);
+			var value = d.value;
+
 			d3.select(this)
 				.transition('hover')
 				.duration(_this.duration / 4)
 				.ease(_this.ease)
 				.attr('fill', _this.colour_hover);
+			d3.select('.tooltip')
+				.classed('is-hidden', false)
+				.style('left', xPosition + 'px')
+				.style('top', yPosition + 'px')
+					.select('.tooltip__value')
+					.text(value);
 		})
 		.on('mouseout', function() {
 			d3.select(this)
 				.transition('hover')
 				.duration(_this.duration)
 				.attr('fill', _this.colour);
-		});
-
-	svg.selectAll('text')
-		.data(this.dataset, this.key)
-		.enter()
-		.append('text')
-		.text(function(d) {
-			return d.value;
-		})
-		.attr('class', 'label')
-		.attr('text-anchor', 'middle')
-		.attr('x', function(d, i) {
-			return _this.xScale(i) + (_this.xScale.bandwidth() / 2);
-		})
-		.attr('y', function(d) {
-			return _this._setPosition(yScale, d.value);
-		})
-		.attr('class', function(d) {
-			return _this._setClass(d);
+			d3.select('.tooltip')
+				.classed('is-hidden', true);
 		});
 
 	d3.select('#sort')
@@ -93,17 +86,6 @@ Barchart.prototype._sortBars = function(svg) {
 		.attr('x', function(d, i) {
 			return _this.xScale(i);
 		});
-
-	svg.selectAll('text')
-		.sort(function(a, b) {
-			return d3.ascending(a.value, b.value);
-		})
-		.transition('sort')
-		.duration(_this.duration)
-		.ease(_this.ease)
-		.attr('x', function(d, i) {
-			return _this.xScale(i) + (_this.xScale.bandwidth() / 2);
-		});
 }
 
 Barchart.prototype._getDataset = function(step) {
@@ -123,20 +105,4 @@ Barchart.prototype._getDataset = function(step) {
 	}
 
 	return dataset;
-}
-
-Barchart.prototype._setPosition = function(yScale, d) {
-	if (d < 8) {
-		return pos = yScale(d) - 4;
-	} else {
-		return pos = yScale(d) + 13;
-	}
-}
-
-Barchart.prototype._setClass = function(d) {
-	if (d.value < 8) {
-		return 'label low';
-	} else {
-		return 'label';
-	}
 }

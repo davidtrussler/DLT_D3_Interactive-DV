@@ -62,3 +62,7 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Adds Sort event
 
 ![sort](screenshots/10_sort.gif)
+
+* Adds tooltips
+
+![tooltip](screenshots/10_tooltip.gif)
