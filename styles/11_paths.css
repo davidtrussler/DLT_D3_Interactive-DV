@@ -11,28 +11,7 @@ svg {
   margin: 0 0 15px 0;
 }
 
-.tooltip {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: #fff;
-  border: solid 1px;
-  border-radius: 10px;
-  padding: 10px;
-  opacity: 0.7;
-  font-family: sans-serif;
-  font-size: 14px;
-  pointer-events: none;
-}
-
-.tooltip p {
-  margin: 0;
-}
-
-.tooltip__heading {
-  font-weight: bold;
-}
-
-.is-hidden {
-  display: none;
+.line {
+  fill: none;
+  stroke: teal;
 }

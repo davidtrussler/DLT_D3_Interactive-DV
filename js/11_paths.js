@@ -8,7 +8,9 @@ Paths.prototype._rowConverter = function(d) {
 };
 
 Paths.prototype.drawLine = function(dataUrl) {
-	d3.csv(dataUrl, this._rowConverter, function(data) {
+	var _this = this;
+
+	d3.csv(dataUrl, _this._rowConverter, function(data) {
 		var dataset = data;
 
 		var xScale = d3.scaleTime()
@@ -20,7 +22,7 @@ Paths.prototype.drawLine = function(dataUrl) {
 					return d.date;
 				})
 			])
-			.range([0, this.width]);
+			.range([0, _this.width]);
 
 		var yScale = d3.scaleLinear()
 			.domain([
@@ -29,6 +31,24 @@ Paths.prototype.drawLine = function(dataUrl) {
 					return d.average;
 				})
 			])
-			.range([this.height, 0]);
+			.range([_this.height, 0]);
+
+		var line = d3.line()
+			.x(function(d) {
+				return xScale(d.date);
+			})
+			.y(function(d) {
+				return yScale(d.average);
+			});
+
+		var svg = d3.select('.svg-container')
+				.append('svg')
+				.attr('width', _this.width)
+				.attr('height', _this.height);
+
+		svg.append('path')
+			. datum(dataset)
+			.attr('class', 'line')
+			.attr('d', line);
 	});
 };
