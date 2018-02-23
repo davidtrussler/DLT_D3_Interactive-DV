@@ -12,6 +12,7 @@ Paths.prototype.drawLine = function(dataUrl) {
 
 	d3.csv(dataUrl, _this._rowConverter, function(data) {
 		var dataset = data;
+		var formatTime = d3.timeFormat("%Y");
 
 		var xScale = d3.scaleTime()
 			.domain([
@@ -22,7 +23,7 @@ Paths.prototype.drawLine = function(dataUrl) {
 					return d.date;
 				})
 			])
-			.range([0, _this.width]);
+			.range([_this.padding, _this.width - _this.padding]);
 
 		var yScale = d3.scaleLinear()
 			.domain([
@@ -31,7 +32,7 @@ Paths.prototype.drawLine = function(dataUrl) {
 					return d.average;
 				})
 			])
-			.range([_this.height, 0]);
+			.range([_this.height - _this.padding, _this.padding]);
 
 		var line = d3.line()
 			.x(function(d) {
@@ -41,14 +42,33 @@ Paths.prototype.drawLine = function(dataUrl) {
 				return yScale(d.average);
 			});
 
+		var xAxis = d3.axisBottom()
+			.scale(xScale)
+			.ticks(10)
+			.tickFormat(formatTime);
+
+		var yAxis = d3.axisLeft()
+			.scale(yScale)
+			.ticks(10);
+
 		var svg = d3.select('.svg-container')
-				.append('svg')
-				.attr('width', _this.width)
-				.attr('height', _this.height);
+			.append('svg')
+			.attr('width', _this.width)
+			.attr('height', _this.height);
 
 		svg.append('path')
-			. datum(dataset)
+			.datum(dataset)
 			.attr('class', 'line')
 			.attr('d', line);
+
+		svg.append('g')
+			.attr('class', 'axis')
+			.attr('transform', 'translate(0, ' + (_this.height - _this.padding) + ')')
+			.call(xAxis);
+
+		svg.append('g')
+			.attr('class', 'axis')
+			.attr('transform', 'translate(' + _this.padding + ', 0)')
+			.call(yAxis);
 	});
 };
