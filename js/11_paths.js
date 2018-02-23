@@ -35,6 +35,9 @@ Paths.prototype.drawLine = function(dataUrl) {
 			.range([_this.height - _this.padding, _this.padding]);
 
 		var line = d3.line()
+			.defined(function(d) {
+				return d.average >= 0;
+			})
 			.x(function(d) {
 				return xScale(d.date);
 			})
