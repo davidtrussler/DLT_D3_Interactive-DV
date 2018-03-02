@@ -27,7 +27,11 @@ Paths.prototype.drawLine = function(dataUrl) {
 
 		var yScale = d3.scaleLinear()
 			.domain([
-				0,
+				d3.min(dataset, function(d) {
+					if (d.average >= 0) {
+						return d.average - 10;
+					}
+				}),
 				d3.max(dataset, function(d) {
 					return d.average;
 				})
