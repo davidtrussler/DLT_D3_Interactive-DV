@@ -61,8 +61,14 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 
 * Adds Sort event
 
-![sort](screenshots/10_sort.gif)
+![Sort](screenshots/10_sort.gif)
 
 * Adds tooltips
 
-![tooltip](screenshots/10_tooltip.gif)
+![Tooltip](screenshots/10_tooltip.gif)
+
+## 11_Using-paths
+
+* Represents date/value data pairs with single line
+
+![Line-simple](screenshots/11_line-simple.png)
