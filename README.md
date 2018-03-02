@@ -72,3 +72,7 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Represents date/value data pairs with single line
 
 ![Line-simple](screenshots/11_line-simple.png)
+
+* Refines visualisation with reference line/label
+
+![Line-refined](screenshots/11_line-refined.png)

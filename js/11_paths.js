@@ -77,5 +77,18 @@ Paths.prototype.drawLine = function(dataUrl) {
 			.attr('class', 'axis')
 			.attr('transform', 'translate(' + _this.padding + ', 0)')
 			.call(yAxis);
+
+		svg.append('line')
+			.attr('x1', _this.padding)
+			.attr('x2', _this.width - _this.padding)
+			.attr('y1', yScale(350))
+			.attr('y2', yScale(350))
+			.attr('class', 'line line__danger');
+
+		svg.append('text')
+			.text("safe limit")
+			.attr('x', _this.padding + 5)
+			.attr('y', yScale(350) - 5)
+			.attr('class', 'text text__danger');
 	});
 };

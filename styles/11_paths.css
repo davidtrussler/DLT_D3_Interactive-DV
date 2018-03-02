@@ -14,4 +14,19 @@ svg {
 .line {
   fill: none;
   stroke: teal;
+  stroke-width: 1;
+}
+
+.line__danger {
+  stroke: red;
+  stroke-dasharray: 3, 3;
+}
+
+.text {
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.text__danger {
+  fill: red;
 }
