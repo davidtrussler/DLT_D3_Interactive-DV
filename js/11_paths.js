@@ -7,7 +7,7 @@ Paths.prototype._rowConverter = function(d) {
 	};
 };
 
-Paths.prototype.drawLine = function(dataUrl) {
+Paths.prototype.drawChart = function(dataUrl, format) {
 	var _this = this;
 
 	d3.csv(dataUrl, _this._rowConverter, function(data) {
@@ -38,17 +38,6 @@ Paths.prototype.drawLine = function(dataUrl) {
 			])
 			.range([_this.height - _this.padding, _this.padding]);
 
-		var line = d3.line()
-			.defined(function(d) {
-				return d.average >= 0;
-			})
-			.x(function(d) {
-				return xScale(d.date);
-			})
-			.y(function(d) {
-				return yScale(d.average);
-			});
-
 		var xAxis = d3.axisBottom()
 			.scale(xScale)
 			.ticks(10)
@@ -63,10 +52,61 @@ Paths.prototype.drawLine = function(dataUrl) {
 			.attr('width', _this.width)
 			.attr('height', _this.height);
 
-		svg.append('path')
-			.datum(dataset)
-			.attr('class', 'line')
-			.attr('d', line);
+		if (format === 'line') {
+			var line = d3.line()
+				.defined(function(d) {
+					return d.average >= 0;
+				})
+				.x(function(d) {
+					return xScale(d.date);
+				})
+				.y(function(d) {
+					return yScale(d.average);
+				});
+
+			svg.append('path')
+				.datum(dataset)
+				.attr('class', 'line')
+				.attr('d', line);
+		} else if (format === 'area') {
+			var area = d3.area()
+				.defined(function(d) {
+					return d.average >= 0;
+				})
+				.x(function(d) {
+					return xScale(d.date);
+				})
+				.y0(function(d) {
+					return yScale.range()[0];
+				})
+				.y1(function(d) {
+					return yScale(d.average);
+				});
+
+			var dangerArea = d3.area()
+				.defined(function(d) {
+					return d.average >= _this.dangerPoint;
+				})
+				.x(function(d) {
+					return xScale(d.date);
+				})
+				.y0(function(d) {
+					return yScale(_this.dangerPoint);
+				})
+				.y1(function(d) {
+					return yScale(d.average);
+				});
+
+			svg.append('path')
+				.datum(dataset)
+				.attr('class', 'area')
+				.attr('d', area);
+
+			svg.append('path')
+				.datum(dataset)
+				.attr('class', 'area__danger')
+				.attr('d', dangerArea);
+		}
 
 		svg.append('g')
 			.attr('class', 'axis')
@@ -81,14 +121,15 @@ Paths.prototype.drawLine = function(dataUrl) {
 		svg.append('line')
 			.attr('x1', _this.padding)
 			.attr('x2', _this.width - _this.padding)
-			.attr('y1', yScale(350))
-			.attr('y2', yScale(350))
+			.attr('y1', yScale(_this.dangerPoint))
+			.attr('y2', yScale(_this.dangerPoint))
 			.attr('class', 'line line__danger');
 
 		svg.append('text')
 			.text("safe limit")
 			.attr('x', _this.padding + 5)
-			.attr('y', yScale(350) - 5)
+			.attr('y', yScale(_this.dangerPoint) - 5)
 			.attr('class', 'text text__danger');
 	});
 };
+

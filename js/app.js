@@ -6,9 +6,12 @@ function init() {
   var padding = 30;
 	var paths = new Paths();
   var dataUrl = 'src/mauna_loa_co2_monthly_averages.csv';
+  var dangerPoint = 350;
 
   paths.width = width;
   paths.height = height;
   paths.padding = padding;
-  paths.drawLine(dataUrl);
+  paths.dangerPoint = dangerPoint;
+  paths.drawChart(dataUrl, 'line');
+  paths.drawChart(dataUrl, 'area');
 }
