@@ -76,3 +76,7 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Refines visualisation with reference line/label
 
 ![Line-refined](screenshots/11_line-refined.png)
+
+* Updates visualisation with area
+
+![Area](screenshots/11_area.png)
