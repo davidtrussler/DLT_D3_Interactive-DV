@@ -1,17 +1,18 @@
 window.addEventListener('DOMContentLoaded', init);
 
 function init() {
-  var width = 660;
-  var height = 310;
-  var padding = 30;
-	var paths = new Paths();
-  var dataUrl = 'src/mauna_loa_co2_monthly_averages.csv';
-  var dangerPoint = 350;
+  var dataset = [5, 10, 20, 45, 6, 25],
+      width = 300,
+      height = 300;
 
-  paths.width = width;
-  paths.height = height;
-  paths.padding = padding;
-  paths.dangerPoint = dangerPoint;
-  paths.drawChart(dataUrl, 'line');
-  paths.drawChart(dataUrl, 'area');
+  var layouts = new Layouts();
+
+  layouts.dataset = dataset
+  layouts.width = width;
+  layouts.height = height;
+  layouts.outerRadius = width / 2;
+  layouts.innerRadius = width / 3;
+  layouts.colour = d3.scaleOrdinal(d3.schemeCategory10);
+
+  layouts.drawPie();
 }

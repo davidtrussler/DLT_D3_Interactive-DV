@@ -80,3 +80,9 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Updates visualisation with area
 
 ![Area](screenshots/11_area.png)
+
+## 13_Layouts
+
+* Draws pie chart
+
+![Piechart](screenshots/13_piechart.png)
