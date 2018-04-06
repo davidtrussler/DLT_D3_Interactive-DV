@@ -1,18 +1,20 @@
 window.addEventListener('DOMContentLoaded', init);
 
 function init() {
-  var dataset = [5, 10, 20, 45, 6, 25],
-      width = 300,
-      height = 300;
+  var dataset = [
+    {apples: 5, oranges: 10, grapes: 22},
+    {apples: 10, oranges: 12, grapes: 28},
+    {apples: 20, oranges: 19, grapes: 32},
+    {apples: 45, oranges: 23, grapes: 35},
+    {apples: 6, oranges: 17, grapes: 43},
+    {apples: 25, oranges: 13, grapes: 37}
+  ];
 
   var layouts = new Layouts();
 
   layouts.dataset = dataset
-  layouts.width = width;
-  layouts.height = height;
-  layouts.outerRadius = width / 2;
-  layouts.innerRadius = width / 3;
   layouts.colour = d3.scaleOrdinal(d3.schemeCategory10);
 
-  layouts.drawPie();
+  layouts.drawPie('apples');
+  layouts.drawStackBars();
 }

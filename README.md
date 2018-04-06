@@ -86,3 +86,7 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Draws pie chart
 
 ![Piechart](screenshots/13_piechart.png)
+
+* Draws stacked bars
+
+![Piechart](screenshots/13_stackedbars.png)
