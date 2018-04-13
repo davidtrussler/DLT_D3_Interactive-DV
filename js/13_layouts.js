@@ -1,5 +1,98 @@
 var Layouts = function() {};
 
+Layouts.prototype.drawForce = function() {
+	var _this = this;
+	var width = 600;
+	var height = 300;
+
+	// Initialise a Force Layout
+	var force = d3.forceSimulation(this.dataset.nodes)
+		.force('charge', d3.forceManyBody())
+		.force('link', d3.forceLink(this.dataset.edges))
+		.force('centre', d3.forceCenter().x(width/2).y(height/2));
+
+	// Create SVG element
+	var svg = d3.select('.svg-container')
+		.append('svg')
+		.attr('width', width)
+		.attr('height', height);
+
+	// Create visual elements: edges
+	var edges = svg.selectAll('line')
+		.data(this.dataset.edges)
+		.enter()
+		.append('line')
+		.style('stroke', '#ccc')
+		.style('stroke-width', 1);
+
+	// Create visual elements: nodes
+	var nodes = svg.selectAll('circle')
+		.data(this.dataset.nodes)
+		.enter()
+		.append('circle')
+		.attr('r', 10)
+		.style('fill', function(d, i) {
+			return _this.colour(i);
+		})
+		.call(d3.drag()
+			.on('start', dragStarted)
+			.on('drag', dragging)
+			.on('end', dragEnded));
+
+	// Define drag event methods
+	function dragStarted(d) {
+		if (!d3.event.active) {
+			force.alphaTarget(0.3).restart();
+			d.fx = d.x;
+			d.fy = d.y;
+		}
+	}
+
+	function dragging(d) {
+		d.fx = d3.event.x;
+		d.fy = d3.event.y;
+	}
+
+	function dragEnded(d) {
+		if (!d3.event.active) {
+			force.alphaTarget(0);
+		}
+
+		d.fx = null;
+		d.fy = null;
+	}
+
+	// Create visual elements: tooltip
+	nodes.append('title')
+		.text(function(d) {
+			return d.name;
+		});
+
+	// Called on simulation tick
+	force.on('tick', function() {
+		edges
+			.attr('x1', function(d) {
+				return d.source.x;
+			})
+			.attr('y1', function(d) {
+				return d.source.y;
+			})
+			.attr('x2', function(d) {
+				return d.target.x;
+			})
+			.attr('y2', function(d) {
+				return d.target.y;
+			});
+		nodes
+			.attr('cx', function(d) {
+				return d.x;
+			})
+			.attr('cy', function(d) {
+				return d.y;
+			});
+	});
+}
+
 Layouts.prototype.drawStackBars = function() {
 	var _this = this;
 	var width = 600;

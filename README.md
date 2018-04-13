@@ -89,4 +89,8 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 
 * Draws stacked bars
 
-![Piechart](screenshots/13_stackedbars.png)
+![Stack](screenshots/13_stackedbars.png)
+
+* Draws force layout
+
+![Force](screenshots/13_force.gif)
