@@ -94,3 +94,6 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Draws force layout
 
 ![Force](screenshots/13_force.gif)
+
+## 14_Geomapping
+
