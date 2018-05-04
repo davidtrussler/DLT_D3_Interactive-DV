@@ -1,23 +1,40 @@
 var Geomapping = function() {};
 
 Geomapping.prototype.drawMap = function() {
-	console.log('drawMap!');
+	var width = 600;
+	var height = 300;
+
+	// Define a projection
+	var projection = d3.geoAlbersUsa()
+		.translate([width / 2, height / 2])
+		.scale([600]);
+
+	// Define path generator
+	var path = d3.geoPath()
+		.projection(projection);
+
+	// Create SVG element
+	var svg = d3.select('.svg-container')
+		.append('svg')
+		.attr('width', width)
+		.attr('height', height);
+
+	// Load GeoJSON data
+	d3.json('src/us-states.json', function(json) {
+		svg.selectAll('path')
+			.data(json.features)
+			.enter()
+			.append('path')
+			.attr('d', path);
+	});
 
 // 	var _this = this;
-// 	var width = 600;
-// 	var height = 300;
 
 // 	// Initialise a Force Layout
 // 	var force = d3.forceSimulation(this.dataset.nodes)
 // 		.force('charge', d3.forceManyBody())
 // 		.force('link', d3.forceLink(this.dataset.edges))
 // 		.force('centre', d3.forceCenter().x(width/2).y(height/2));
-
-// 	// Create SVG element
-// 	var svg = d3.select('.svg-container')
-// 		.append('svg')
-// 		.attr('width', width)
-// 		.attr('height', height);
 
 // 	// Create visual elements: edges
 // 	var edges = svg.selectAll('line')
