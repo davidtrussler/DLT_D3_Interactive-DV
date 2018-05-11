@@ -19,13 +19,59 @@ Geomapping.prototype.drawMap = function() {
 		.attr('width', width)
 		.attr('height', height);
 
-	// Load GeoJSON data
-	d3.json('src/us-states.json', function(json) {
-		svg.selectAll('path')
-			.data(json.features)
-			.enter()
-			.append('path')
-			.attr('d', path);
+	// Set up colour scale
+	var colour = d3.scaleQuantize()
+		.range([
+			'rgb(237, 248, 233)',
+			'rgb(186, 228, 179)',
+			'rgb(116, 196, 118)',
+			'rgb(49, 163, 84)',
+			'rgb(0, 109, 44)'
+		]);
+
+	// Load production data and set the colour domain values
+	d3.csv('src/us-ag-productivity.csv', function(data) {
+		colour.domain([
+			d3.min(data, function(d) {
+				return d.value;
+			}),
+			d3.max(data, function(d) {
+				return d.value;
+			})
+		]);
+
+		// Load GeoJSON data
+		d3.json('src/us-states.json', function(json) {
+			// Merge agricultural data with states
+			for (var i = 0; i < data.length; i++) {
+				var dataState = data[i].state;
+				var dataValue = parseFloat(data[i].value);
+
+				for (var j = 0; j < json.features.length; j++) {
+					var jsonState = json.features[j].properties.name;
+
+					if (jsonState === dataState) {
+						json.features[j].properties.value = dataValue;
+						break;
+					}
+				}
+			}
+
+			svg.selectAll('path')
+				.data(json.features)
+				.enter()
+				.append('path')
+				.attr('d', path)
+				.style('fill', function(d) {
+					var value = d.properties.value || null;
+
+					if (value) {
+						return colour(value);
+					} else {
+						return '#ccc';
+					}
+				});
+		});
 	});
 
 // 	var _this = this;
