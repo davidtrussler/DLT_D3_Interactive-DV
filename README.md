@@ -100,3 +100,7 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Draws basic map
 
 ![Basic-map](screenshots/14_basic-map.png)
+
+* Adds agricultural data as choropleth
+
+![Choropleth](screenshots/14_choropleth.png)
