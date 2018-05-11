@@ -97,3 +97,6 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 
 ## 14_Geomapping
 
+* Draws basic map
+
+![Basic-map](screenshots/14_basic-map.png)
