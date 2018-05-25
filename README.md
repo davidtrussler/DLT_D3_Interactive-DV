@@ -104,3 +104,7 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Adds agricultural data as choropleth
 
 ![Choropleth](screenshots/14_choropleth.png)
+
+* Adds city population data as points
+
+![Points](screenshots/14_points.png)
