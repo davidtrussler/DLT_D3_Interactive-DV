@@ -20,7 +20,7 @@ Geomapping.prototype.drawMap = function() {
 		.attr('height', height);
 
 	// Set up colour scale
-	var colour = d3.scaleQuantize()
+	var colourScale = d3.scaleQuantize()
 		.range([
 			'rgb(237, 248, 233)',
 			'rgb(186, 228, 179)',
@@ -29,12 +29,16 @@ Geomapping.prototype.drawMap = function() {
 			'rgb(0, 109, 44)'
 		]);
 
+	// Set up population scale
+	var populationScale = d3.scaleLinear()
+		.range([25, 400]);
+
 	//Number formatting for population values
 	var formatAsThousands = d3.format(",");
 
 	// Load production data and set the colour domain values
 	d3.csv('src/us-ag-productivity.csv', function(data) {
-		colour.domain([
+		colourScale.domain([
 			d3.min(data, function(d) {
 				return d.value;
 			}),
@@ -69,7 +73,7 @@ Geomapping.prototype.drawMap = function() {
 					var value = d.properties.value || null;
 
 					if (value) {
-						return colour(value);
+						return colourScale(value);
 					} else {
 						return '#ccc';
 					}
@@ -77,6 +81,15 @@ Geomapping.prototype.drawMap = function() {
 
 			// Load and display cities data
 			d3.csv('src/us-cities.csv', function(data) {
+				populationScale.domain([
+						d3.min(data, function(d) {
+							return parseInt(d.population);
+						}),
+						d3.max(data, function(d) {
+							return parseInt(d.population);
+						})
+					]);
+
 				svg.selectAll('circle')
 					.data(data)
 					.enter()
@@ -87,7 +100,9 @@ Geomapping.prototype.drawMap = function() {
 					.attr('cy', function(d) {
 						return projection([d.lon, d.lat])[1];
 					})
-					.attr('r', 5)
+					.attr('r', function(d) {
+						return Math.sqrt(populationScale(d.population));
+					})
 					.attr('class', 'place')
 					.append('title')
 					.text(function(d) {
@@ -120,7 +135,7 @@ Geomapping.prototype.drawMap = function() {
 // 		.append('circle')
 // 		.attr('r', 10)
 // 		.style('fill', function(d, i) {
-// 			return _this.colour(i);
+// 			return _this.colourScale(i);
 // 		})
 // 		.call(d3.drag()
 // 			.on('start', dragStarted)
