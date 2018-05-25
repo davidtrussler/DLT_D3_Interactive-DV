@@ -71,6 +71,26 @@ Geomapping.prototype.drawMap = function() {
 						return '#ccc';
 					}
 				});
+
+			// Load and display cities data
+			d3.csv('src/us-cities.csv', function(data) {
+				svg.selectAll('circle')
+					.data(data)
+					.enter()
+					.append('circle')
+					.attr('cx', function(d) {
+						return projection([d.lon, d.lat])[0];
+					})
+					.attr('cy', function(d) {
+						return projection([d.lon, d.lat])[1];
+					})
+					.attr('r', 5)
+					.attr('class', 'place')
+					.append('title')
+					.text(function(d) {
+						return d.place + ', population: ' + d.population;
+					});
+			});
 		});
 	});
 

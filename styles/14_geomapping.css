@@ -11,8 +11,17 @@ svg {
   margin: 0 0 15px 0;
 }
 
+/*
 .label {
   fill: white;
   font-family: sans-serif;
   font-size: 14px;
+}
+*/
+
+.place {
+  fill: yellow;
+  stroke: gray;
+  stroke-width: 0.25;
+  opacity: 0.75;
 }
