@@ -29,6 +29,9 @@ Geomapping.prototype.drawMap = function() {
 			'rgb(0, 109, 44)'
 		]);
 
+	//Number formatting for population values
+	var formatAsThousands = d3.format(",");
+
 	// Load production data and set the colour domain values
 	d3.csv('src/us-ag-productivity.csv', function(data) {
 		colour.domain([
@@ -88,7 +91,7 @@ Geomapping.prototype.drawMap = function() {
 					.attr('class', 'place')
 					.append('title')
 					.text(function(d) {
-						return d.place + ', population: ' + d.population;
+						return d.place + ', population: ' + formatAsThousands(d.population);
 					});
 			});
 		});
