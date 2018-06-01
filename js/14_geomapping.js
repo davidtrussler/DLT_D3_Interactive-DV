@@ -202,9 +202,11 @@ Geomapping.prototype.drawMap = function() {
 						projection.translate(offset);
 
 						svg.selectAll('path')
+							.transition()
 							.attr('d', path);
 
 						svg.selectAll('circle')
+							.transition()
 							.attr('cx', function(d) {
 								return projection([d.lon, d.lat])[0];
 							})
