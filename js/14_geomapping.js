@@ -1,13 +1,14 @@
 var Geomapping = function() {};
 
 Geomapping.prototype.drawMap = function() {
-	var width = 600;
-	var height = 300;
+	var width = 600,
+			height = 300,
+			panHeight = 30;
 
 	// Define a projection
 	var projection = d3.geoAlbersUsa()
 		.translate([width / 2, height / 2])
-		.scale([600]);
+		.scale([2000]);
 
 	// Define path generator
 	var path = d3.geoPath()
@@ -33,8 +34,75 @@ Geomapping.prototype.drawMap = function() {
 	var populationScale = d3.scaleLinear()
 		.range([25, 400]);
 
-	//Number formatting for population values
+	// Number formatting for population values
 	var formatAsThousands = d3.format(",");
+
+	// Set up panning controls
+	var createPanControls = function() {
+		var directions = [
+			{
+				name: 'north',
+				x_bg: 0,
+				y_bg: 0,
+				width: width,
+				height: panHeight,
+				x_arr: width / 2,
+				y_arr: panHeight * (2/3),
+				text: '&uarr;'
+			},
+			{
+				name: 'south',
+				x_bg: 0,
+				y_bg: height - panHeight,
+				width: width,
+				height: panHeight,
+				x_arr: width / 2,
+				y_arr: height - (panHeight * (1/3)),
+				text: '&darr;'
+			},
+			{
+				name: 'west',
+				x_bg: 0,
+				y_bg: panHeight,
+				width: panHeight,
+				height: height - (panHeight * 2),
+				x_arr: panHeight * (1/3),
+				y_arr: height / 2,
+				text: '&larr;'
+			},
+			{
+				name: 'east',
+				x_bg: width - panHeight,
+				y_bg: panHeight,
+				width: panHeight,
+				height: height - (panHeight * 2),
+				x_arr: width - (panHeight * (2/3)),
+				y_arr: height / 2,
+				text: '&rarr;'
+			}
+		];
+
+		directions.forEach(function(direction) {
+			console.log(direction);
+
+			var control = svg.append('g')
+				.attr('class', 'pan_control')
+				.attr('id', direction.name);
+
+			control.append('rect')
+				.attr('class', 'pan_control__bg')
+				.attr('x', direction.x_bg)
+				.attr('y', direction.y_bg)
+				.attr('width', direction.width)
+				.attr('height', direction.height);
+
+			control.append('text')
+				.attr('class', 'pan_control__arrow')
+				.attr('x', direction.x_arr)
+				.attr('y', direction.y_arr)
+				.html(direction.text);
+		});
+	}
 
 	// Load production data and set the colour domain values
 	d3.csv('src/us-ag-productivity.csv', function(data) {
@@ -108,6 +176,9 @@ Geomapping.prototype.drawMap = function() {
 					.text(function(d) {
 						return d.place + ', population: ' + formatAsThousands(d.population);
 					});
+
+				// Load pan controls
+				createPanControls();
 			});
 		});
 	});

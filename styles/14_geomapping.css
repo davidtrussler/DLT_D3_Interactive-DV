@@ -25,3 +25,18 @@ svg {
   stroke-width: 0.25;
   opacity: 0.75;
 }
+
+.pan_control {
+  fill: #000;
+  /*opacity: 0.3;*/
+}
+
+.pan_control__bg {
+  /*fill: #000;*/
+  opacity: 0.2;
+}
+
+.pan_control__arrow {
+  /*opacity: 1;*/
+  text-align: center;
+}
