@@ -3,7 +3,8 @@ var Geomapping = function() {};
 Geomapping.prototype.drawMap = function() {
 	var width = 600,
 			height = 300,
-			panHeight = 30;
+			panHeight = 30,
+			panAmount = 50;
 
 	// Define a projection
 	var projection = d3.geoAlbersUsa()
@@ -83,8 +84,6 @@ Geomapping.prototype.drawMap = function() {
 		];
 
 		directions.forEach(function(direction) {
-			console.log(direction);
-
 			var control = svg.append('g')
 				.attr('class', 'pan_control')
 				.attr('id', direction.name);
@@ -177,8 +176,42 @@ Geomapping.prototype.drawMap = function() {
 						return d.place + ', population: ' + formatAsThousands(d.population);
 					});
 
-				// Load pan controls
+				// Load and set up pan controls
 				createPanControls();
+
+				d3.selectAll('.pan_control')
+					.on('click', function() {
+						var offset = projection.translate(),
+								direction = d3.select(this).attr('id');
+
+						switch (direction) {
+							case 'north':
+								offset[1] += panAmount;
+								break;
+							case 'south':
+								offset[1] -= panAmount;
+								break;
+							case 'west':
+								offset[0] += panAmount;
+								break;
+							case 'east':
+								offset[0] -= panAmount;
+								break;
+						}
+
+						projection.translate(offset);
+
+						svg.selectAll('path')
+							.attr('d', path);
+
+						svg.selectAll('circle')
+							.attr('cx', function(d) {
+								return projection([d.lon, d.lat])[0];
+							})
+							.attr('cy', function(d) {
+								return projection([d.lon, d.lat])[1];
+							});
+					});
 			});
 		});
 	});
