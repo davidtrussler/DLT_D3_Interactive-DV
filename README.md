@@ -108,3 +108,7 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Adds city population data as points
 
 ![Points](screenshots/14_points.png)
+
+* Adds controls to pan the map
+
+![Points](screenshots/14_panning.gif)
