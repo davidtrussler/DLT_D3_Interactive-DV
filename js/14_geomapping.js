@@ -21,6 +21,36 @@ Geomapping.prototype.drawMap = function() {
 		.attr('width', width)
 		.attr('height', height);
 
+	// Add drag behaviour
+	var dragging = function(d) {
+		// console.log(d3.event);
+
+		var offset = projection.translate();
+
+		offset[0] += d3.event.dx;
+		offset[1] += d3.event.dy;
+
+		projection.translate(offset);
+
+		svg.selectAll('path')
+			.attr('d', path);
+
+		svg.selectAll('circle')
+			.attr('cx', function(d) {
+				return projection([d.lon, d.lat])[0];
+			})
+			.attr('cy', function(d) {
+				return projection([d.lon, d.lat])[1];
+			});
+	}
+
+	var drag = d3.drag()
+		.on('drag', dragging);
+
+	var map = svg.append('g')
+		// .attr('id', 'map')
+		.call(drag);
+
 	// Set up colour scale
 	var colourScale = d3.scaleQuantize()
 		.range([
@@ -131,7 +161,7 @@ Geomapping.prototype.drawMap = function() {
 				}
 			}
 
-			svg.selectAll('path')
+			map.selectAll('path')
 				.data(json.features)
 				.enter()
 				.append('path')
@@ -157,7 +187,7 @@ Geomapping.prototype.drawMap = function() {
 						})
 					]);
 
-				svg.selectAll('circle')
+				map.selectAll('circle')
 					.data(data)
 					.enter()
 					.append('circle')
