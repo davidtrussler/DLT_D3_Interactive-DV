@@ -23,8 +23,6 @@ Geomapping.prototype.drawMap = function() {
 
 	// Add drag behaviour
 	var dragging = function(d) {
-		// console.log(d3.event);
-
 		var offset = projection.translate();
 
 		offset[0] += d3.event.dx;
@@ -48,8 +46,14 @@ Geomapping.prototype.drawMap = function() {
 		.on('drag', dragging);
 
 	var map = svg.append('g')
-		// .attr('id', 'map')
 		.call(drag);
+
+	map.append('rect')
+		.attr('x', 0)
+		.attr('y', 0)
+		.attr('width', width)
+		.attr('height', height)
+		.attr('opacity', 0);
 
 	// Set up colour scale
 	var colourScale = d3.scaleQuantize()
