@@ -250,38 +250,28 @@ Geomapping.prototype.drawMap = function() {
 
 				d3.selectAll('.pan_control')
 					.on('click', function() {
-						var offset = projection.translate(),
+						var x = 0,
+								y = 0,
 								direction = d3.select(this).attr('id');
 
 						switch (direction) {
 							case 'north':
-								offset[1] += panAmount;
+								y += panAmount;
 								break;
 							case 'south':
-								offset[1] -= panAmount;
+								y -= panAmount;
 								break;
 							case 'west':
-								offset[0] += panAmount;
+								x += panAmount;
 								break;
 							case 'east':
-								offset[0] -= panAmount;
+								x -= panAmount;
 								break;
 						}
 
-						projection.translate(offset);
-
-						svg.selectAll('path')
-							.transition()
-							.attr('d', path);
-
-						svg.selectAll('circle')
-							.transition()
-							.attr('cx', function(d) {
-								return projection([d.lon, d.lat])[0];
-							})
-							.attr('cy', function(d) {
-								return projection([d.lon, d.lat])[1];
-							});
+						//This triggers a zoom event, translating by x, y
+						map.transition()
+							.call(zoom.translateBy, x, y);
 					});
 			});
 		});
