@@ -21,7 +21,8 @@ Geomapping.prototype.drawMap = function() {
 		.attr('width', width)
 		.attr('height', height);
 
-	// Add drag behaviour
+	/* Add drag behaviour --
+	** replaced by zooming
 	var dragging = function(d) {
 		var offset = projection.translate();
 
@@ -41,12 +42,46 @@ Geomapping.prototype.drawMap = function() {
 				return projection([d.lon, d.lat])[1];
 			});
 	}
+	*/
 
-	var drag = d3.drag()
-		.on('drag', dragging);
+	// var drag = d3.drag()
+	// 	.on('drag', dragging);
+
+	// var map = svg.append('g')
+	// 	.call(drag);
+
+	// Add drag and zoom behaviour
+	var zooming = function(d) {
+		var offset = [d3.event.transform.x, d3.event.transform.y];
+		var newScale = d3.event.transform.k * 2000;
+
+		projection
+			.translate(offset)
+			.scale(newScale);
+
+		svg.selectAll('path')
+			.attr('d', path);
+
+		svg.selectAll('circle')
+			.attr('cx', function(d) {
+				return projection([d.lon, d.lat])[0];
+			})
+			.attr('cy', function(d) {
+				return projection([d.lon, d.lat])[1];
+			});
+	}
+
+	var zoom = d3.zoom()
+		.on('zoom', zooming);
+
+	var centre = projection([-110.0, 42.0]);
 
 	var map = svg.append('g')
-		.call(drag);
+		.call(zoom)
+		.call(zoom.transform, d3.zoomIdentity
+			.translate(width/2, height/2)
+			.scale(0.25)
+			.translate(-centre[0], -centre[1]));
 
 	map.append('rect')
 		.attr('x', 0)
