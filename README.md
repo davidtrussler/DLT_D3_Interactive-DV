@@ -111,8 +111,12 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 
 * Adds controls to pan the map
 
-![Points](screenshots/14_panning.gif)
+![Pan](screenshots/14_panning.gif)
 
 * Adds drag functionality to the map
 
 ![Drag](screenshots/14_dragging.gif)
+
+* Adds zooming to the map
+
+![Zoom](screenshots/14_zooming.gif)
