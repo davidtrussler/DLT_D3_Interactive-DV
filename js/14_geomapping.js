@@ -172,6 +172,48 @@ Geomapping.prototype.drawMap = function() {
 		});
 	}
 
+	// Set up zooming controls
+	var createZoomControls = function() {
+		var i = 0;
+		var directions = [
+			{
+				name: 'out',
+				text: '&ndash;'
+			},
+			{
+				name: 'in',
+				text: '+'
+			}
+		];
+
+		directions.forEach(function(direction) {
+			console.log(i);
+
+			var controlSize = 30;
+			var controlOffset = 70;
+			var controlMargin = 10;
+			var control = svg.append('g')
+				.attr('class', 'zoom_control')
+				.attr('id', direction.name)
+				.attr('transform', 'translate(' + (width - controlOffset - controlSize*i - controlMargin*i) + ',' + (height - controlOffset) + ')');
+
+			control.append('rect')
+				.attr('class', 'zoom_control__bg')
+				.attr('x', 0)
+				.attr('y', 0)
+				.attr('width', controlSize)
+				.attr('height', controlSize);
+
+			control.append('text')
+				.attr('class', 'zoom_control__text')
+				.attr('x', controlSize/2 - 4)
+				.attr('y', controlSize/2 + 4)
+				.html(direction.text);
+
+			i++;
+		});
+	}
+
 	// Load production data and set the colour domain values
 	d3.csv('src/us-ag-productivity.csv', function(data) {
 		colourScale.domain([
@@ -272,6 +314,30 @@ Geomapping.prototype.drawMap = function() {
 						//This triggers a zoom event, translating by x, y
 						map.transition()
 							.call(zoom.translateBy, x, y);
+					});
+
+				// Load and set up pan controls
+				createZoomControls();
+
+				d3.selectAll('.zoom_control')
+					.on('click', function() {
+						var scaleFactor,
+								direction = d3.select(this).attr('id');
+
+						switch (direction) {
+							case 'in':
+								scaleFactor = 1.5;
+								break;
+							case 'out':
+								scaleFactor = 0.75;
+								break;
+							default:
+								break;
+						}
+
+						//This triggers a zoom event, translating by scaleFactor
+						map.transition()
+							.call(zoom.scaleBy, scaleFactor);
 					});
 			});
 		});

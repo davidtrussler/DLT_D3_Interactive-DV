@@ -11,14 +11,6 @@ svg {
   margin: 0 0 15px 0;
 }
 
-/*
-.label {
-  fill: white;
-  font-family: sans-serif;
-  font-size: 14px;
-}
-*/
-
 .place {
   fill: yellow;
   stroke: gray;
@@ -26,17 +18,18 @@ svg {
   opacity: 0.75;
 }
 
-.pan_control {
+.pan_control,
+.zoom_control {
   fill: #000;
-  /*opacity: 0.3;*/
+  cursor: pointer;
 }
 
-.pan_control__bg {
-  /*fill: #000;*/
+.pan_control__bg,
+.zoom_control__bg {
   opacity: 0.2;
 }
 
-.pan_control__arrow {
-  /*opacity: 1;*/
+.pan_control__arrow,
+.zoom_control__text {
   text-align: center;
 }
