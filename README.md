@@ -94,3 +94,29 @@ This repo is work based on "Interactive Data Visualisation for the Web" by Scott
 * Draws force layout
 
 ![Force](screenshots/13_force.gif)
+
+## 14_Geomapping
+
+* Draws basic map
+
+![Basic-map](screenshots/14_basic-map.png)
+
+* Adds agricultural data as choropleth
+
+![Choropleth](screenshots/14_choropleth.png)
+
+* Adds city population data as points
+
+![Points](screenshots/14_points.png)
+
+* Adds controls to pan the map
+
+![Pan](screenshots/14_panning.gif)
+
+* Adds drag functionality to the map
+
+![Drag](screenshots/14_dragging.gif)
+
+* Adds zooming to the map
+
+![Zoom](screenshots/14_zooming.gif)

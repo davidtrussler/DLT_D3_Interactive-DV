@@ -40,13 +40,14 @@ function init() {
     ]
   }
 
-  var layouts = new Layouts();
-
+  // var layouts = new Layouts();
   // layouts.dataset = dataset_pie_stack;
-  layouts.dataset = dataset_force;
-  layouts.colour = d3.scaleOrdinal(d3.schemeCategory10);
-
+  // layouts.dataset = dataset_force;
+  // layouts.colour = d3.scaleOrdinal(d3.schemeCategory10);
   // layouts.drawPie('apples');
   // layouts.drawStackBars();
-  layouts.drawForce();
+  // layouts.drawForce();
+
+  var geomapping = new Geomapping();
+  geomapping.drawMap();
 }

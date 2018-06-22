@@ -1,0 +1,35 @@
+body {
+	margin: 15px;
+}
+
+.svg-container {
+  position: relative;
+}
+
+svg {
+  background-color: beige;
+  margin: 0 0 15px 0;
+}
+
+.place {
+  fill: yellow;
+  stroke: gray;
+  stroke-width: 0.25;
+  opacity: 0.75;
+}
+
+.pan_control,
+.zoom_control {
+  fill: #000;
+  cursor: pointer;
+}
+
+.pan_control__bg,
+.zoom_control__bg {
+  opacity: 0.2;
+}
+
+.pan_control__arrow,
+.zoom_control__text {
+  text-align: center;
+}
